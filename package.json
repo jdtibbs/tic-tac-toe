@@ -1,0 +1,21 @@
+{
+  "name": "tic-tac-toe",
+  "version": "1.0.0",
+  "description": "A simple two player tic-tac-toe game backed by Firebase.",
+  "main": "index.js",
+  "scripts": {
+    "build": "brunch build --production",
+    "test": "tape app/**/*test.js"
+  },
+  "author": "jdtibbs",
+  "license": "ISC",
+  "devDependencies": {
+    "auto-reload-brunch": "^2.1.0",
+    "brunch": "^2.5.0",
+    "clean-css-brunch": "^2.0.0",
+    "css-brunch": "^2.0.0",
+    "javascript-brunch": "^2.0.0",
+    "tape": "^4.5.1",
+    "uglify-js-brunch": "^2.0.1"
+  }
+}
