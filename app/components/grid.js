@@ -41,10 +41,11 @@
 		var column = grid.columns.filter(function(column, index) {
 			return isInColumn(column, point);
 		});
-		return {
+		var cell = {
 			row: row[0],
 			column: column[0]
 		};
+		return row[0] !== undefined && column[0] !== undefined ? cell : undefined;
 	}
 
 	function isInRow(row, point) {
