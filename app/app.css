@@ -1,4 +1,13 @@
-body {
-	/**/
+main {
+	/*center horizontally*/
+	
+	margin-left: auto;
+	margin-right: auto;
+}
+canvas {
+	/*canvas: default width: 300, height: 150*/
+	/* setting width/height in css may distort image, thus specify these in the HTML */
+	/*height: 500px;*/
+	/*width: 300px;*/
 }
 

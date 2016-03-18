@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="https://storage.googleapis.com/code.getmdl.io/1.0.6/material.deep_purple-purple.min.css" />
   <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-  <link rel="stylesheet" type="text/css" href="/app.css">
+  <link rel="stylesheet" type="text/css" href="/common.css">
 
   <title>Tic-Tac-Toe</title>
 </head>
@@ -21,42 +21,35 @@
         <div class="mdl-layout-spacer"></div>
       </div>
       <div class="mdl-layout__tab-bar mdl-js-ripple-effect">
-        <a href="#add-panel" class="mdl-layout__tab is-active">Game</a>
+        <a href="#login-panel" class="mdl-layout__tab is-active">Login</a>
+        <a href="#play-panel" class="mdl-layout__tab">Play</a>
         <a href="#about-panel" class="mdl-layout__tab">About</a>
       </div>
     </header>
 
     <main class="mdl-layout__content">
 
-      <section class="mdl-layout__tab-panel is-active" id="add-panel">
+      <section class="mdl-layout__tab-panel is-active" id="login-panel">
         <div class="page-content">
-          <div class="mdl-grid jdt-grid">
+          <div id="login-error"></div>
+          <p>TODO</p>
+        </div>
+      </section>
 
-
-            <div class="mdl-cell mdl-cell--12-col jdt-flex-container">
-              <button id="7" type="button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--raised mdl-button--colored jdt-number-button jdt-flex-item">
-                7
-              </button>
-              <button type="button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--raised mdl-button--colored jdt-number-button jdt-flex-item">
-                8
-              </button>
-              <button type="button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--raised mdl-button--colored jdt-number-button jdt-flex-item">
-                9
-              </button>
-            </div>
-
-
-          </div>
+      <section class="mdl-layout__tab-panel" id="play-panel">
+        <div class="page-content">
+          <div id="error"></div>
+          <canvas id="grid" width="300" height="500"></canvas>
         </div>
       </section>
 
 
       <section class="mdl-layout__tab-panel" id="about-panel">
         <div class="page-content">
-          <div class="mdl-grid jdt-grid">
+          <div class="mdl-grid">
 
             <div class="mdl-cell mdl-cell--12-col">
-              <h4>A Simple Tic-Tac-Toe Game</h4>
+              <!-- <h4>A Simple Tic-Tac-Toe Game</h4> -->
               <h5>Game Play</h5>
               <p>Click a position in the grid to make your move.</p>
             </div>
