@@ -1,5 +1,6 @@
 (function() {
 	'use strict';
+	var lineWidth = 1;
 	var board = {
 		start: {
 			x: 5,
@@ -34,6 +35,17 @@
 		}]
 	};
 
+	function cellCenter(pCell) {
+		var maxX = cellMaxX(pCell.column);
+		var maxY = cellMaxY(pCell.row);
+		var midX = maxX - cell.width / 2;
+		var midY = maxY - cell.height / 2;
+		return {
+			x: midX,
+			y: midY
+		};
+	}
+
 	function cellClicked(point) {
 		var row = grid.rows.filter(function(row, index) {
 			return isInRow(row, point);
@@ -49,19 +61,19 @@
 	}
 
 	function isInRow(row, point) {
-		return point.y < rowY(row);
+		return point.y < cellMaxY(row);
 	}
 
 	function isInColumn(column, point) {
-		return point.x < columnX(column);
+		return point.x < cellMaxX(column);
 	}
 
-	function rowY(row) {
+	function cellMaxY(row) {
 		// max Y for this row.
 		return board.start.y + (cell.height * row.id);
 	}
 
-	function columnX(column) {
+	function cellMaxX(column) {
 		// max X for this column.
 		return board.start.x + (cell.width * column.id);
 	}
@@ -79,28 +91,30 @@
 			grid.rows.forEach(function(row) {
 				if (row.line) {
 					ctx.beginPath();
-					ctx.moveTo(board.start.x, rowY(row));
-					ctx.lineTo(board.start.x + (cell.width * cell.count), rowY(row));
+					ctx.moveTo(board.start.x, cellMaxY(row));
+					ctx.lineTo(board.start.x + (cell.width * cell.count), cellMaxY(row));
 					ctx.stroke();
 				}
 			});
 			grid.columns.forEach(function(column) {
 				if (column.line) {
 					ctx.beginPath();
-					ctx.moveTo(columnX(column), board.start.y);
-					ctx.lineTo(columnX(column), board.start.y + (cell.height * cell.count));
+					ctx.moveTo(cellMaxX(column), board.start.y);
+					ctx.lineTo(cellMaxX(column), board.start.y + (cell.height * cell.count));
 					ctx.stroke();
 				}
 			});
 		},
 		drawO: function(ctx, cell) {
+			var center = cellCenter(cell);
 			ctx.beginPath();
-			ctx.lineWidth = 3;
-			ctx.arc(175, 75, 30, 0, Math.PI * 2, true);
+			ctx.lineWidth = lineWidth;
+			// ctx.arc(175, 75, 30, 0, Math.PI * 2, true);
+			ctx.arc(center.x, center.y, 30, 0, Math.PI * 2, true);
 			ctx.stroke();
 		},
 		drawX: function(ctx, cell) {
-			ctx.lineWidth = 3;
+			ctx.lineWidth = lineWidth;
 			ctx.lineCap = 'round';
 			ctx.beginPath();
 			ctx.moveTo(50, 50);
