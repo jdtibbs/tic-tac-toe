@@ -33,13 +33,38 @@
 			line: false
 		}]
 	};
+
+	function cellClicked(point) {
+		var row = grid.rows.filter(function(row, index) {
+			return isInRow(row, point);
+		});
+		var column = grid.columns.filter(function(column, index) {
+			return isInColumn(column, point);
+		});
+		return {
+			row: row[0],
+			column: column[0]
+		};
+	}
+
+	function isInRow(row, point) {
+		var y = board.start.y + (cell.height * row.id);
+		return point.y < y;
+	}
+
+	function isInColumn(column, point) {
+		var x = board.start.x + (cell.width * column.id);
+		return point.x < x;
+	}
 	var factory = {
-		onClick: function(e) {
+		onClick: function(event) {
+			var target = event.target || event.srcElement;
+			var rect = target.getBoundingClientRect();
 			var point = {
-				x: e.clientX,
-				y: e.clientY
+				x: event.clientX - rect.left,
+				y: event.clientY - rect.top
 			};
-			console.log(point)
+			console.log(cellClicked(point));
 		},
 		draw: function(ctx) {
 			grid.rows.forEach(function(row) {
