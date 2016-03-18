@@ -8,15 +8,22 @@
 
 	module.exports = {
 		init: function() {
-			console.log('The app has loaded.');
 			eventService.addEventListener(document, 'DOMContentLoaded', onDOMLoaded);
 
 			function onDOMLoaded() {
 				console.log('DOM has loaded.');
 				var context = canvasService.contextFactory('grid');
-				grid.draw(context());
-				eventService.addEventListener(documentService.getElementById('grid'), 'click', grid.onClick);
+				grid.drawGrid(context());
+				eventService.addEventListener(documentService.getElementById('grid'), 'click', gridClick);
 
+				function gridClick(event) {
+					var cell = grid.onClick(event);
+					if (cell !== undefined) {
+						console.log('row: ' + cell.row.id + ' column: ' + cell.column.id);
+						grid.drawO(context(), cell);
+						grid.drawX(context(), cell);
+					}
+				}
 			}
 		}
 	};

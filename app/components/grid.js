@@ -48,13 +48,21 @@
 	}
 
 	function isInRow(row, point) {
-		var y = board.start.y + (cell.height * row.id);
-		return point.y < y;
+		return point.y < rowY(row);
 	}
 
 	function isInColumn(column, point) {
-		var x = board.start.x + (cell.width * column.id);
-		return point.x < x;
+		return point.x < columnX(column);
+	}
+
+	function rowY(row) {
+		// max Y for this row.
+		return board.start.y + (cell.height * row.id);
+	}
+
+	function columnX(column) {
+		// max X for this column.
+		return board.start.x + (cell.width * column.id);
 	}
 	var factory = {
 		onClick: function(event) {
@@ -64,25 +72,43 @@
 				x: event.clientX - rect.left,
 				y: event.clientY - rect.top
 			};
-			console.log(cellClicked(point));
+			return cellClicked(point);
 		},
-		draw: function(ctx) {
+		drawGrid: function(ctx) {
 			grid.rows.forEach(function(row) {
 				if (row.line) {
 					ctx.beginPath();
-					ctx.moveTo(board.start.x, board.start.y + (cell.height * row.id));
-					ctx.lineTo(board.start.x + (cell.width * cell.count), board.start.y + (cell.height * row.id));
+					ctx.moveTo(board.start.x, rowY(row));
+					ctx.lineTo(board.start.x + (cell.width * cell.count), rowY(row));
 					ctx.stroke();
 				}
 			});
 			grid.columns.forEach(function(column) {
 				if (column.line) {
 					ctx.beginPath();
-					ctx.moveTo(board.start.x + (cell.width * column.id), board.start.y);
-					ctx.lineTo(board.start.x + (cell.width * column.id), board.start.y + (cell.height * cell.count));
+					ctx.moveTo(columnX(column), board.start.y);
+					ctx.lineTo(columnX(column), board.start.y + (cell.height * cell.count));
 					ctx.stroke();
 				}
 			});
+		},
+		drawO: function(ctx, cell) {
+			ctx.beginPath();
+			ctx.lineWidth = 3;
+			ctx.arc(175, 75, 30, 0, Math.PI * 2, true);
+			ctx.stroke();
+		},
+		drawX: function(ctx, cell) {
+			ctx.lineWidth = 3;
+			ctx.lineCap = 'round';
+			ctx.beginPath();
+			ctx.moveTo(50, 50);
+			ctx.lineTo(100, 100);
+			ctx.stroke();
+			ctx.beginPath();
+			ctx.moveTo(100, 50);
+			ctx.lineTo(50, 100);
+			ctx.stroke();
 		}
 	};
 	module.exports = factory;
