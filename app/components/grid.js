@@ -1,13 +1,15 @@
 (function() {
 	'use strict';
 	var board = {
-		x: 5,
-		y: 10
+		start: {
+			x: 5,
+			y: 10
+		}
 	};
 	var cell = {
 		count: 3,
-		height: 100,
-		width: 100
+		height: 90,
+		width: 90
 	};
 	var grid = {
 		rows: [{
@@ -32,20 +34,27 @@
 		}]
 	};
 	var factory = {
+		onClick: function(e) {
+			var point = {
+				x: e.clientX,
+				y: e.clientY
+			};
+			console.log(point)
+		},
 		draw: function(ctx) {
 			grid.rows.forEach(function(row) {
 				if (row.line) {
 					ctx.beginPath();
-					ctx.moveTo(board.x, board.y + (cell.height * row.id));
-					ctx.lineTo(board.x + (cell.width * cell.count), board.y + (cell.height * row.id));
+					ctx.moveTo(board.start.x, board.start.y + (cell.height * row.id));
+					ctx.lineTo(board.start.x + (cell.width * cell.count), board.start.y + (cell.height * row.id));
 					ctx.stroke();
 				}
 			});
 			grid.columns.forEach(function(column) {
 				if (column.line) {
 					ctx.beginPath();
-					ctx.moveTo(board.x + (cell.width * column.id), board.y);
-					ctx.lineTo(board.x + (cell.width * column.id), board.y + (cell.height * cell.count));
+					ctx.moveTo(board.start.x + (cell.width * column.id), board.start.y);
+					ctx.lineTo(board.start.x + (cell.width * column.id), board.start.y + (cell.height * cell.count));
 					ctx.stroke();
 				}
 			});
