@@ -2,19 +2,22 @@
 	'use strict';
 	var lineWidth = 2;
 	var markerMargin = 10;
-	var board = {
-		start: {
-			x: 5,
-			y: 10
-		},
-		size: 300
-	};
-	var cell = {
-		count: 3,
-		height: 90,
-		width: 90
-	};
 	var grid = {
+		cell: {
+			count: 3,
+			height: 90,
+			width: 90
+		},
+		columns: [{
+			id: 1,
+			line: true
+		}, {
+			id: 2,
+			line: true
+		}, {
+			id: 3,
+			line: false
+		}],
 		rows: [{
 			id: 1,
 			line: true
@@ -25,23 +28,18 @@
 			id: 3,
 			line: false
 		}],
-		columns: [{
-			id: 1,
-			line: true
-		}, {
-			id: 2,
-			line: true
-		}, {
-			id: 3,
-			line: false
-		}]
+		size: 300,
+		start: {
+			x: 5,
+			y: 10
+		}
 	};
 
 	function cellCenter(pCell) {
 		var maxX = cellMaxX(pCell.column);
 		var maxY = cellMaxY(pCell.row);
-		var midX = maxX - cell.width / 2;
-		var midY = maxY - cell.height / 2;
+		var midX = maxX - grid.cell.width / 2;
+		var midY = maxY - grid.cell.height / 2;
 		return {
 			x: midX,
 			y: midY
@@ -72,24 +70,24 @@
 
 	function cellMaxX(column) {
 		// X for this column's line.
-		return board.start.x + (cell.width * column.id);
+		return grid.start.x + (grid.cell.width * column.id);
 	}
 
 	function cellMaxY(row) {
 		// Y for this row's line.
-		return board.start.y + (cell.height * row.id);
+		return grid.start.y + (grid.cell.height * row.id);
 	}
 
 	function xLength() {
-		return cell.height - markerMargin * 2;
+		return grid.cell.height - markerMargin * 2;
 	}
 
 	function oRadius() {
-		return cell.height - markerMargin * 2;
+		return grid.cell.height - markerMargin * 2;
 	}
 
 	function newGrid(ctx) {
-		ctx.clearRect(board.start.x, board.start.y, board.size, board.size);
+		ctx.clearRect(grid.start.x, grid.start.y, grid.size, grid.size);
 		factory.drawGrid(ctx);
 	}
 	var factory = {
@@ -106,16 +104,16 @@
 			grid.rows.forEach(function(row) {
 				if (row.line) {
 					ctx.beginPath();
-					ctx.moveTo(board.start.x, cellMaxY(row));
-					ctx.lineTo(board.start.x + (cell.width * cell.count), cellMaxY(row));
+					ctx.moveTo(grid.start.x, cellMaxY(row));
+					ctx.lineTo(grid.start.x + (grid.cell.width * grid.cell.count), cellMaxY(row));
 					ctx.stroke();
 				}
 			});
 			grid.columns.forEach(function(column) {
 				if (column.line) {
 					ctx.beginPath();
-					ctx.moveTo(cellMaxX(column), board.start.y);
-					ctx.lineTo(cellMaxX(column), board.start.y + (cell.height * cell.count));
+					ctx.moveTo(cellMaxX(column), grid.start.y);
+					ctx.lineTo(cellMaxX(column), grid.start.y + (grid.cell.height * grid.cell.count));
 					ctx.stroke();
 				}
 			});
