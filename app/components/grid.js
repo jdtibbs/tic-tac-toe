@@ -1,7 +1,7 @@
 (function() {
 	'use strict';
 	var lineWidth = 2;
-	var markerMargin = 10;
+	var margin = 10;
 	var grid = {
 		cell: {
 			count: 3,
@@ -79,11 +79,11 @@
 	}
 
 	function xLength() {
-		return grid.cell.height - markerMargin * 2;
+		return grid.cell.height - margin * 2;
 	}
 
 	function oRadius() {
-		return grid.cell.height - markerMargin * 2;
+		return grid.cell.height - margin * 2;
 	}
 
 	function newGrid(ctx) {
@@ -127,8 +127,8 @@
 			ctx.stroke();
 		},
 		drawX: function(ctx, cell) {
-			var x = cellMaxX(cell.column) - (markerMargin);
-			var y = cellMaxY(cell.row) - (markerMargin);
+			var x = cellMaxX(cell.column) - (margin);
+			var y = cellMaxY(cell.row) - (margin);
 			ctx.beginPath();
 			ctx.moveTo(x, y);
 			ctx.lineTo(x - xLength(), y - xLength());
