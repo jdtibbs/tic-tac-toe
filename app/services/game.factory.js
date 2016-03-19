@@ -14,6 +14,7 @@
 						}
 					});
 					return move.length === 0; // true, move not found.
+				},
 				move: function(event) {
 					var cell = grid.onClick(event);
 					if (cell !== undefined) {
