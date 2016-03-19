@@ -123,8 +123,8 @@
 			ctx.stroke();
 		},
 		drawX: function(ctx, cell) {
-			var x = cellMaxX(cell.column) - (markerMargin / 2);
-			var y = cellMaxY(cell.row) - (markerMargin / 2);
+			var x = cellMaxX(cell.column) - (markerMargin);
+			var y = cellMaxY(cell.row) - (markerMargin);
 			ctx.beginPath();
 			ctx.moveTo(x, y);
 			ctx.lineTo(x - xLength(), y - xLength());
