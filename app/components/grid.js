@@ -1,6 +1,6 @@
 (function() {
 	'use strict';
-	var lineWidth = 1;
+	var lineWidth = 2;
 	var markerMargin = 10;
 	var board = {
 		start: {
