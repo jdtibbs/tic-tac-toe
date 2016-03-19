@@ -6,7 +6,8 @@
 		start: {
 			x: 5,
 			y: 10
-		}
+		},
+		size: 300
 	};
 	var cell = {
 		count: 3,
@@ -86,6 +87,11 @@
 	function oRadius() {
 		return cell.height - markerMargin * 2;
 	}
+
+	function newGrid(ctx) {
+		ctx.clearRect(board.start.x, board.start.y, board.size, board.size);
+		factory.drawGrid(ctx);
+	}
 	var factory = {
 		onClick: function(event) {
 			var target = event.target || event.srcElement;
@@ -133,6 +139,9 @@
 			ctx.moveTo(x, y - xLength());
 			ctx.lineTo(x - xLength(), y);
 			ctx.stroke();
+		},
+		newGame: function(ctx) {
+			newGrid(ctx);
 		}
 	};
 	module.exports = factory;

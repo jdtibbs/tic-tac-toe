@@ -15,6 +15,7 @@
 				var context = canvasService.contextFactory('grid');
 				grid.drawGrid(context());
 				eventService.addEventListener(documentService.getElementById('grid'), 'click', gridClick);
+				eventService.addEventListener(documentService.getElementById('newGame'), 'click', newGame);
 
 				function gridClick(event) {
 					var cell = grid.onClick(event);
@@ -23,6 +24,10 @@
 						grid.drawO(context(), cell);
 						grid.drawX(context(), cell);
 					}
+				}
+
+				function newGame(event) {
+					grid.newGame(context());
 				}
 			}
 		}
