@@ -30,8 +30,8 @@
 		}],
 		size: 300,
 		start: {
-			x: 5,
-			y: 10
+			x: 0,
+			y: 0
 		}
 	};
 
@@ -86,9 +86,27 @@
 		return grid.cell.height - margin * 2;
 	}
 
-	function newGrid(ctx) {
+	function drawGrid(ctx) {
+		grid.rows.forEach(function(row) {
+			if (row.line) {
+				ctx.beginPath();
+				ctx.moveTo(grid.start.x, cellMaxY(row));
+				ctx.lineTo(grid.start.x + (grid.cell.width * grid.cell.count), cellMaxY(row));
+				ctx.stroke();
+			}
+		});
+		grid.columns.forEach(function(column) {
+			if (column.line) {
+				ctx.beginPath();
+				ctx.moveTo(cellMaxX(column), grid.start.y);
+				ctx.lineTo(cellMaxX(column), grid.start.y + (grid.cell.height * grid.cell.count));
+				ctx.stroke();
+			}
+		});
+	}
+
+	function clearGrid(ctx) {
 		ctx.clearRect(grid.start.x, grid.start.y, grid.size, grid.size);
-		factory.drawGrid(ctx);
 	}
 	var factory = {
 		onClick: function(event) {
@@ -99,24 +117,6 @@
 				y: event.clientY - rect.top
 			};
 			return cellClicked(point);
-		},
-		drawGrid: function(ctx) {
-			grid.rows.forEach(function(row) {
-				if (row.line) {
-					ctx.beginPath();
-					ctx.moveTo(grid.start.x, cellMaxY(row));
-					ctx.lineTo(grid.start.x + (grid.cell.width * grid.cell.count), cellMaxY(row));
-					ctx.stroke();
-				}
-			});
-			grid.columns.forEach(function(column) {
-				if (column.line) {
-					ctx.beginPath();
-					ctx.moveTo(cellMaxX(column), grid.start.y);
-					ctx.lineTo(cellMaxX(column), grid.start.y + (grid.cell.height * grid.cell.count));
-					ctx.stroke();
-				}
-			});
 		},
 		drawO: function(ctx, cell) {
 			var center = cellCenter(cell);
@@ -139,7 +139,8 @@
 			ctx.stroke();
 		},
 		newGame: function(ctx) {
-			newGrid(ctx);
+			clearGrid(ctx);
+			drawGrid(ctx);
 		}
 	};
 	module.exports = factory;
