@@ -1,6 +1,7 @@
 (function() {
 	'use strict';
 	var lineWidth = 1;
+	var markerMargin = 10;
 	var board = {
 		start: {
 			x: 5,
@@ -68,14 +69,22 @@
 		return point.x < cellMaxX(column);
 	}
 
+	function cellMaxX(column) {
+		// X for this column's line.
+		return board.start.x + (cell.width * column.id);
+	}
+
 	function cellMaxY(row) {
-		// max Y for this row.
+		// Y for this row's line.
 		return board.start.y + (cell.height * row.id);
 	}
 
-	function cellMaxX(column) {
-		// max X for this column.
-		return board.start.x + (cell.width * column.id);
+	function xLength() {
+		return cell.height - markerMargin * 2;
+	}
+
+	function oRadius() {
+		return cell.height - markerMargin * 2;
 	}
 	var factory = {
 		onClick: function(event) {
@@ -107,22 +116,22 @@
 		},
 		drawO: function(ctx, cell) {
 			var center = cellCenter(cell);
+			ctx.lineWidth = lineWidth;
 			ctx.beginPath();
 			ctx.lineWidth = lineWidth;
-			// ctx.arc(175, 75, 30, 0, Math.PI * 2, true);
-			ctx.arc(center.x, center.y, 30, 0, Math.PI * 2, true);
+			ctx.arc(center.x, center.y, oRadius() / 2, 0, Math.PI * 2, true);
 			ctx.stroke();
 		},
 		drawX: function(ctx, cell) {
-			ctx.lineWidth = lineWidth;
-			ctx.lineCap = 'round';
+			var x = cellMaxX(cell.column) - (markerMargin / 2);
+			var y = cellMaxY(cell.row) - (markerMargin / 2);
 			ctx.beginPath();
-			ctx.moveTo(50, 50);
-			ctx.lineTo(100, 100);
+			ctx.moveTo(x, y);
+			ctx.lineTo(x - xLength(), y - xLength());
 			ctx.stroke();
 			ctx.beginPath();
-			ctx.moveTo(100, 50);
-			ctx.lineTo(50, 100);
+			ctx.moveTo(x, y - xLength());
+			ctx.lineTo(x - xLength(), y);
 			ctx.stroke();
 		}
 	};

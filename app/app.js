@@ -20,7 +20,7 @@
 					var cell = grid.onClick(event);
 					if (cell !== undefined) {
 						console.log('row: ' + cell.row.id + ' column: ' + cell.column.id);
-						grid.drawO(context(), cell);
+						// grid.drawO(context(), cell);
 						grid.drawX(context(), cell);
 					}
 				}
