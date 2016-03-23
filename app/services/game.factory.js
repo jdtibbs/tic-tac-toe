@@ -1,10 +1,13 @@
 (function() {
 	'use strict';
 	var grid = require('components/grid');
+	var firebaseFactory = require('services/firebase.factory');
 
 	var game = {
 		game: function(context) {
 			var moves = [];
+
+			var firebase = firebaseFactory.create();
 
 			function isValidMove(cell) {
 				var move = moves.filter(function(element) {
@@ -15,20 +18,27 @@
 				return move.length === 0; // true, move not found.
 			}
 
-			function moved(cell) {
-				moves.push(cell);
+			function drawMove(cell) {
+				if (moves.length % 2 === 0) {
+					grid.drawX(context(), cell);
+				} else {
+					grid.drawO(context(), cell);
+				}
+			}
+
+			function makeMove(cell) {
+				if (isValidMove(cell)) {
+					drawMove(cell);
+					moves.push(cell);
+					var ref = firebase.ref();
+				}
 			}
 
 			return {
 				move: function(event) {
 					var cell = grid.onClick(event);
 					if (cell !== undefined) {
-						if (isValidMove(cell)) {
-							console.log('row: ' + cell.row.id + ' column: ' + cell.column.id);
-							moved(cell);
-							grid.drawO(context(), cell);
-							grid.drawX(context(), cell);
-						}
+						makeMove(cell);
 					}
 				},
 				newGame: function() {

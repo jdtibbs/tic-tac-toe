@@ -122,13 +122,13 @@
 			var center = cellCenter(cell);
 			ctx.lineWidth = lineWidth;
 			ctx.beginPath();
-			ctx.lineWidth = lineWidth;
 			ctx.arc(center.x, center.y, oRadius() / 2, 0, Math.PI * 2, true);
 			ctx.stroke();
 		},
 		drawX: function(ctx, cell) {
 			var x = cellMaxX(cell.column) - (margin);
 			var y = cellMaxY(cell.row) - (margin);
+			ctx.lineWidth = lineWidth;
 			ctx.beginPath();
 			ctx.moveTo(x, y);
 			ctx.lineTo(x - xLength(), y - xLength());
