@@ -5,7 +5,8 @@ exports.config = {
     files: {
         javascripts: {
             joinTo: {
-                "app.js": /^app/
+                "app.js": /^app/,
+                "vendor.js": /^node_modules\\firebase\\lib\\firebase-web.js/
             },
             order: {
                 before: [/app.js/, /.+\.module.js/]
