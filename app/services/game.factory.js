@@ -1,10 +1,13 @@
 (function() {
 	'use strict';
 	var grid = require('components/grid');
+	var firebaseFactory = require('services/firebase.factory');
 
 	var game = {
 		game: function(context) {
 			var moves = [];
+
+			var firebase = firebaseFactory.create();
 
 			function isValidMove(cell) {
 				var move = moves.filter(function(element) {
@@ -27,6 +30,7 @@
 				if (isValidMove(cell)) {
 					drawMove(cell);
 					moves.push(cell);
+					var ref = firebase.ref();
 				}
 			}
 
