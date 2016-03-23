@@ -6,9 +6,22 @@
         create: function() {
             var ref;
 
+            function getRef() {
+                return ref || (ref = new Firebase("https://jdt-tic-tac-toe.firebaseio.com/"));
+            }
             return {
-                ref: function() {
-                    return ref || (ref = new Firebase("https://jdt-tic-tac-toe.firebaseio.com/"));
+                authWithPassword: function(email, password, successCallback, errorCallback) {
+                    getRef().authWithPassword({
+                            email: email,
+                            password: 'tictactoe'
+                        },
+                        function(error, authData) {
+                            if (error) {
+                                errorCallback(error);
+                            } else {
+                                successCallback();
+                            }
+                        });
                 }
             };
         }

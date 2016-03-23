@@ -10,4 +10,7 @@ canvas {
 	/*height: 500px;*/
 	/*width: 300px;*/
 }
+.error {
+	color: red;
+}
 
