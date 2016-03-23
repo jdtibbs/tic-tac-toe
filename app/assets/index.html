@@ -31,12 +31,21 @@
 
       <section class="mdl-layout__tab-panel is-active" id="login-panel">
         <div class="page-content">
-          <div id="login-error"></div>
-          <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-            <input id="email" class="mdl-textfield__input" type="text">
-            <label class="mdl-textfield__label" for="email">Email</label>
+          <div>
+            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+              <input id="email" class="mdl-textfield__input" type="text">
+              <label class="mdl-textfield__label" for="email">Email</label>
+            </div>
           </div>
           <div>
+            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+              <input id="name" class="mdl-textfield__input" type="text">
+              <label class="mdl-textfield__label" for="name">Name</label>
+            </div>
+          </div>
+          <div>
+            <div id="login-error" class="error"></div>
+            <div id="login-success"></div>
             <button id="login-btn" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored">
               Login
             </button>
@@ -45,11 +54,12 @@
       </section>
 
       <section class="mdl-layout__tab-panel" id="play-panel">
+        <br>
         <div class="page-content">
-          <div id="error"></div>
           <div>
             <canvas id="grid" width="300" height="300"></canvas>
           </div>
+          <div id="error"></div>
           <button id="newGame" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored">New Game</button>
         </div>
       </section>
