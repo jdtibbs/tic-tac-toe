@@ -6,3 +6,6 @@ tmp/
 
 # Brunch output folder.
 public/
+
+#firebase constants
+app/firebase.constants.js
