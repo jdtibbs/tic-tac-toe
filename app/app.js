@@ -13,27 +13,36 @@
 
 			function onDOMLoaded() {
 				console.log('DOM has loaded.');
-				var context = canvasService.contextFactory('grid');
-				var firebase = firebaseFactory.create();
-				var game = gameFactory.game(context);
-				game.newGame();
 
 				eventService.addEventListener(documentService.getElementById('login-btn'), 'click', login);
 
 				function login(event) {
-					var email = documentService.getElementById('email');
-					firebase.authWithPassword(email.value, 'tictactoe', loginSuccess, loginError);
+					if (isValidLogin()) {
+						var baas = firebaseFactory.create();
+						baas.authWithPassword(getEmail(), 'tictactoe', loginSuccess, loginError);
+					} else {
+						loginError('Please enter e-mail and name.');
+					}
 				}
 
-				function loginSuccess() {
-					documentService.getElementById('login-error').textContent = "";
-					var name = documentService.getElementById('name');
-					documentService.getElementById('login-success').textContent = name.value + ", Welcome to Tic-Tac-Toe!";
-					window.setTimeout(function() {
-						documentService.getElementById('login-success').textContent = "";
-					}, 3000);
-					eventService.addEventListener(documentService.getElementById('grid'), 'click', gridClick);
-					eventService.addEventListener(documentService.getElementById('newGame'), 'click', newGame);
+				function isValidLogin() {
+					return getEmail() !== "" && getName() !== "";
+				}
+
+				function getEmail() {
+					return documentService.getElementById('email').value;
+				}
+
+				function getName() {
+					return documentService.getElementById('name').value;
+				}
+
+				function loginSuccess(authData) {
+					welcome(getName());
+					var context = canvasService.contextFactory('grid');
+					var game = gameFactory.create(context, getEmail(), getName());
+					startGame(game);
+					initializeMove(game);
 				}
 
 				function loginError(error) {
@@ -41,12 +50,25 @@
 					documentService.getElementById('login-success').textContent = "";
 				}
 
-				function gridClick(event) {
-					game.move(event);
+				function welcome(name) {
+					documentService.getElementById('login-error').textContent = "";
+					documentService.getElementById('login-success').textContent = name + ", Welcome to Tic-Tac-Toe!";
+					window.setTimeout(function() {
+						documentService.getElementById('login-success').textContent = "";
+					}, 3000);
 				}
 
-				function newGame(event) {
-					game.newGame();
+				function startGame(game) {
+					game.startGame(getEmail(), getName());
+					eventService.addEventListener(documentService.getElementById('newGame'), 'click', function(event) {
+						game.newGame();
+					});
+				}
+
+				function initializeMove(game) {
+					eventService.addEventListener(documentService.getElementById('grid'), 'click', function(event) {
+						game.move(event);
+					});
 				}
 			}
 		}
