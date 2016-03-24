@@ -60,6 +60,7 @@
 
 				function startGame(game) {
 					game.startGame(getEmail(), getName());
+					game.newGame();
 					eventService.addEventListener(documentService.getElementById('newGame'), 'click', function(event) {
 						game.newGame();
 					});

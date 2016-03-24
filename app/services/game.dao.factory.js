@@ -45,7 +45,6 @@
 					});
 			}
 
-			function initEmail() {}
 
 			function move() {}
 
