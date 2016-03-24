@@ -2,16 +2,15 @@
 
     'use strict';
 
+    var firebaseConstants = require('../firebase.constants');
+
     var factory = {
         create: function() {
             var ref;
 
-            function getRef() {
-                return ref || (ref = new Firebase("https://jdt-tic-tac-toe.firebaseio.com/"));
-            }
             return {
                 authWithPassword: function(email, password, successCallback, errorCallback) {
-                    getRef().authWithPassword({
+                    this.ref().authWithPassword({
                             email: email,
                             password: 'tictactoe'
                         },
@@ -19,9 +18,15 @@
                             if (error) {
                                 errorCallback(error);
                             } else {
-                                successCallback();
+                                successCallback(authData);
                             }
                         });
+                },
+                getAuth: function() {
+                    return this.ref().getAuth();
+                },
+                ref: function() {
+                    return ref || (ref = new Firebase(firebaseConstants.url));
                 }
             };
         }

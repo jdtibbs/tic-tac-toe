@@ -1,13 +1,12 @@
 (function() {
 	'use strict';
 	var grid = require('components/grid');
-	var firebaseFactory = require('services/firebase.factory');
+	var daoFactory = require('services/game.dao.factory');
 
-	var game = {
-		game: function(context) {
+	var factory = {
+		create: function(context, email, name) {
 			var moves = [];
-
-			var firebase = firebaseFactory.create();
+			var dao = daoFactory.create();
 
 			function isValidMove(cell) {
 				var move = moves.filter(function(element) {
@@ -30,7 +29,6 @@
 				if (isValidMove(cell)) {
 					drawMove(cell);
 					moves.push(cell);
-					var ref = firebase.ref();
 				}
 			}
 
@@ -44,9 +42,12 @@
 				newGame: function() {
 					moves.length = 0;
 					grid.newGame(context());
+				},
+				startGame: function(email, name) {
+					dao.startGame(email, name);
 				}
 			};
 		}
 	};
-	module.exports = game;
+	module.exports = factory;
 })();
