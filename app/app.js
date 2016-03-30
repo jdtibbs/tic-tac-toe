@@ -5,7 +5,8 @@
 	var documentService = require('services/document.service');
 	var eventService = require('services/event.service');
 	var gameFactory = require('services/game.factory');
-	var firebaseFactory = require('services/firebase.factory');
+	var loginService = require('services/login.service');
+	var userDaoFactory = require('services/user.dao.factory');
 
 	module.exports = {
 		init: function() {
@@ -17,32 +18,21 @@
 				eventService.addEventListener(documentService.getElementById('login-btn'), 'click', login);
 
 				function login(event) {
-					if (isValidLogin()) {
-						var baas = firebaseFactory.create();
-						baas.authWithPassword(getEmail(), 'tictactoe', loginSuccess, loginError);
-					} else {
-						loginError('Please enter e-mail and name.');
-					}
-				}
-
-				function isValidLogin() {
-					return getEmail() !== "" && getName() !== "";
+					loginService.login(getEmail(), loginSuccess, loginError);
 				}
 
 				function getEmail() {
 					return documentService.getElementById('email').value;
 				}
 
-				function getName() {
-					return documentService.getElementById('name').value;
-				}
-
 				function loginSuccess(authData) {
-					welcome(getName());
-					var context = canvasService.contextFactory('grid');
-					var game = gameFactory.create(context, getEmail(), getName());
-					startGame(game);
-					initializeMove(game);
+					var userDao = userDaoFactory.create();
+					userDao.getUser(authData.uid, function(user) {
+						if (user) {
+							welcome(user);
+							startGame(user);
+						}
+					});
 				}
 
 				function loginError(error) {
@@ -50,25 +40,32 @@
 					documentService.getElementById('login-success').textContent = "";
 				}
 
-				function welcome(name) {
+				function welcome(user) {
 					documentService.getElementById('login-error').textContent = "";
-					documentService.getElementById('login-success').textContent = name + ", Welcome to Tic-Tac-Toe!";
+					documentService.getElementById('login-success').textContent = user.name + ", Welcome to Tic-Tac-Toe!";
 					window.setTimeout(function() {
 						documentService.getElementById('login-success').textContent = "";
-					}, 3000);
+					}, 5000);
 				}
 
-				function startGame(game) {
-					game.startGame(getEmail(), getName());
+				function startGame(user) {
+					var context = canvasService.contextFactory('grid');
+					var game = gameFactory.create(context, user);
+					gridEventListener(game);
+					newGameListener(game);
+					game.startGame();
 					game.newGame();
-					eventService.addEventListener(documentService.getElementById('newGame'), 'click', function(event) {
-						game.newGame();
+				}
+
+				function gridEventListener(game) {
+					eventService.addEventListener(documentService.getElementById('grid'), 'click', function(event) {
+						game.move(event);
 					});
 				}
 
-				function initializeMove(game) {
-					eventService.addEventListener(documentService.getElementById('grid'), 'click', function(event) {
-						game.move(event);
+				function newGameListener(game) {
+					eventService.addEventListener(documentService.getElementById('newGame'), 'click', function(event) {
+						game.newGame();
 					});
 				}
 			}
