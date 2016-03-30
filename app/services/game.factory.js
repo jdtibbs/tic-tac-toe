@@ -1,12 +1,12 @@
 (function() {
 	'use strict';
 	var grid = require('components/grid');
-	var daoFactory = require('services/game.dao.factory');
+	var gameDaoFactory = require('services/game.dao.factory');
 
 	var factory = {
-		create: function(context, email, name) {
+		create: function(context, user) {
 			var moves = [];
-			var dao = daoFactory.create();
+			var gameDao = gameDaoFactory.create();
 
 			function isValidMove(cell) {
 				var move = moves.filter(function(element) {
@@ -42,9 +42,10 @@
 				newGame: function() {
 					moves.length = 0;
 					grid.newGame(context());
+					gameDao.newGame();
 				},
-				startGame: function(email, name) {
-					dao.startGame(email, name);
+				startGame: function() {
+					gameDao.startGame();
 				}
 			};
 		}

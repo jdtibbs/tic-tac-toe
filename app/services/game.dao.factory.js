@@ -6,49 +6,37 @@
 		create: function() {
 
 			var firebase = firebaseFactory.create();
-			var auth = firebase.getAuth();
 
-			function startGame(email, name) {
-				var game = {
-					email: 'email',
-					player1: 'name',
-					player2: 'name',
-					move: 'move',
-					moves: 'moves'
-				};
-
-				var gameRef = firebase.ref()
-					.child('games')
-					.child(auth.uid);
-
-				gameRef
-					.once('value', function(snap) {
-						if (snap.exists()) {
-							var player = Object.getOwnPropertyNames(snap.val())
-								.filter(function(val) {
-									if (val === 'player2') {
-										return true;
-									}
-								});
-							if (player.length === 0) {
-								gameRef
-									.update({
-										player2: name
-									});
-							}
-						} else {
-							gameRef
-								.set({
-									player1: name
-								});
-						}
-					});
+			function startGame() {
+				newGame();
 			}
 
 
 			function move() {}
 
-			function newGame() {}
+			function newGame() {
+				var game = {
+					id: {
+						move: 'move',
+						moves: 'moves'
+					}
+				};
+
+				var gameRef = firebase.ref()
+					.child('games');
+
+				gameRef
+					.once('value', function(snap) {
+						if (snap.exists()) {
+							gameRef
+								.set({
+									move: {},
+									moves: {}
+								});
+						}
+					});
+			}
+
 			return {
 				startGame: startGame,
 				move: move,
