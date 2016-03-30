@@ -29,6 +29,7 @@
 				if (isValidMove(cell)) {
 					drawMove(cell);
 					moves.push(cell);
+					gameDao.move(cell.row.id, cell.column.id, user);
 				}
 			}
 
